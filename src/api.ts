@@ -36,7 +36,7 @@ export type MatchResponse = {
 
 export type RoundResponse = {
   roundId: number;
-  roundNumber: number;
+  number: number;
   matches: MatchResponse[];
 };
 

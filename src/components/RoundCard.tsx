@@ -49,7 +49,7 @@ export function RoundCard(props: {
       ) : (
         <div style={{ marginTop: 12 }}>
           <p style={{ margin: "0 0 10px 0" }}>
-            <strong>Round #{props.round.roundNumber}</strong> (id: {props.round.roundId})
+            <strong>Round #{props.round.number}</strong> (id: {props.round.roundId})
           </p>
           <div style={{ display: "grid", gap: 10 }}>
             {props.round.matches.map((m) => (
