@@ -7,6 +7,7 @@ export function CreateTournamentCard(props: {
 }) {
   const [name, setName] = useState("Dev Tournament");
   const [totalRounds, setTotalRounds] = useState(5);
+  const [matchFormat, setMatchFormat] = useState<"SINGLE_GAME" | "BEST_OF_3">("SINGLE_GAME");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,7 +15,11 @@ export function CreateTournamentCard(props: {
     setError(null);
     setBusy(true);
     try {
-      const t = await api.createTournament({ name, totalRounds });
+      const t = await api.createTournament({
+        name,
+        totalRounds,
+        matchFormat,
+      });
       props.onCreated(t);
     } catch (e: any) {
       setError(e?.message ?? "Failed to create tournament");
@@ -48,6 +53,20 @@ export function CreateTournamentCard(props: {
             onChange={(ev) => setTotalRounds(Number(ev.target.value))}
           />
         </label>
+
+        <label style={label}>
+          Match format
+          <select
+            style={input}
+            value={matchFormat}
+            onChange={(ev) =>
+              setMatchFormat(ev.target.value as "SINGLE_GAME" | "BEST_OF_3")
+            }
+          >
+            <option value="SINGLE_GAME">Single game</option>
+            <option value="BEST_OF_3">Best of 3</option>
+          </select>
+        </label>
       </div>
 
       <button style={button} disabled={busy} onClick={submit}>
@@ -68,11 +87,23 @@ const cardStyle: React.CSSProperties = {
 
 const h2: React.CSSProperties = { margin: "0 0 12px 0" };
 
-const row: React.CSSProperties = { display: "flex", gap: 12, flexWrap: "wrap" };
+const row: React.CSSProperties = {
+  display: "flex",
+  gap: 12,
+  flexWrap: "wrap",
+};
 
-const label: React.CSSProperties = { display: "flex", flexDirection: "column", gap: 6 };
+const label: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  gap: 6,
+};
 
-const input: React.CSSProperties = { padding: 8, borderRadius: 8, border: "1px solid #ccc" };
+const input: React.CSSProperties = {
+  padding: 8,
+  borderRadius: 8,
+  border: "1px solid #ccc",
+};
 
 const button: React.CSSProperties = {
   marginTop: 12,
@@ -83,4 +114,7 @@ const button: React.CSSProperties = {
   cursor: "pointer",
 };
 
-const errorStyle: React.CSSProperties = { marginTop: 10, color: "crimson" };
+const errorStyle: React.CSSProperties = {
+  marginTop: 10,
+  color: "crimson",
+};

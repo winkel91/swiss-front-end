@@ -1,12 +1,14 @@
 export type CreateTournamentRequest = {
   name: string;
   totalRounds: number;
+  matchFormat: "SINGLE_GAME" | "BEST_OF_3";
 };
 
 export type TournamentResponse = {
   id: number;
   name: string;
   totalRounds: number;
+  matchFormat: "SINGLE_GAME" | "BEST_OF_3";
 };
 
 export type AddPlayerRequest = {

@@ -2,16 +2,10 @@ import { useState } from "react";
 import type { MatchResponse, RoundResponse } from "../api/types";
 import { api } from "../api/client";
 
-const RESULT_OPTIONS = [
-  { value: "1-0", label: "1-0 (Player 1 wins)" },
-  { value: "0-1", label: "0-1 (Player 2 wins)" },
-  { value: "0.5-0.5", label: "0.5-0.5 (Draw)" },
-  { value: "BYE", label: "BYE" },
-];
-
 export function RoundCard(props: {
   tournamentId: number;
   round: RoundResponse | null;
+  matchFormat: "SINGLE_GAME" | "BEST_OF_3";
   onRoundGenerated: (r: RoundResponse) => void;
   onResultSubmitted?: () => void;
 }) {
@@ -49,11 +43,17 @@ export function RoundCard(props: {
       ) : (
         <div style={{ marginTop: 12 }}>
           <p style={{ margin: "0 0 10px 0" }}>
-            <strong>Round #{props.round.number}</strong> (id: {props.round.roundId})
+            <strong>Round #{props.round.number}</strong> (id: {props.round.roundId}) • Format:{" "}
+            {props.matchFormat === "BEST_OF_3" ? "Best of 3" : "Single game"}
           </p>
           <div style={{ display: "grid", gap: 10 }}>
             {props.round.matches.map((m) => (
-              <MatchRow key={m.id} match={m} onResultSubmitted={props.onResultSubmitted} />
+              <MatchRow
+                key={m.id}
+                match={m}
+                matchFormat={props.matchFormat}
+                onResultSubmitted={props.onResultSubmitted}
+              />
             ))}
           </div>
         </div>
@@ -62,7 +62,11 @@ export function RoundCard(props: {
   );
 }
 
-function MatchRow(props: { match: MatchResponse; onResultSubmitted?: () => void }) {
+function MatchRow(props: {
+  match: MatchResponse;
+  matchFormat: "SINGLE_GAME" | "BEST_OF_3";
+  onResultSubmitted?: () => void;
+}) {
   const [result, setResult] = useState(props.match.result ?? "");
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
@@ -89,6 +93,22 @@ function MatchRow(props: { match: MatchResponse; onResultSubmitted?: () => void 
   const p1 = props.match.player1Name ?? "(BYE)";
   const p2 = props.match.player2Name ?? "(BYE)";
 
+  const resultOptions =
+    props.match.player2Id === null
+      ? [{ value: "bye", label: "bye" }]
+      : props.matchFormat === "BEST_OF_3"
+        ? [
+            { value: "2-0", label: "2-0 (Player 1 wins)" },
+            { value: "2-1", label: "2-1 (Player 1 wins)" },
+            { value: "1-2", label: "1-2 (Player 2 wins)" },
+            { value: "0-2", label: "0-2 (Player 2 wins)" },
+          ]
+        : [
+            { value: "1-0", label: "1-0 (Player 1 wins)" },
+            { value: "0-1", label: "0-1 (Player 2 wins)" },
+            { value: "0.5-0.5", label: "0.5-0.5 (Draw)" },
+          ];
+
   return (
     <div style={matchStyle}>
       <div style={{ flex: 1 }}>
@@ -102,7 +122,7 @@ function MatchRow(props: { match: MatchResponse; onResultSubmitted?: () => void 
 
       <select style={select} value={result} onChange={(ev) => setResult(ev.target.value)}>
         <option value="">Select...</option>
-        {RESULT_OPTIONS.map((o) => (
+        {resultOptions.map((o) => (
           <option key={o.value} value={o.value}>
             {o.label}
           </option>

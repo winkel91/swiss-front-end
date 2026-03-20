@@ -30,8 +30,11 @@ export function TournamentPage() {
 
         <section style={cardStyle}>
           <h2 style={{ margin: "0 0 12px 0" }}>Current tournament</h2>
+
           {!tournament ? (
-            <p style={{ margin: 0, opacity: 0.8 }}>Create a tournament to begin.</p>
+            <p style={{ margin: 0, opacity: 0.8 }}>
+              Create a tournament to begin.
+            </p>
           ) : (
             <div style={{ display: "grid", gap: 6 }}>
               <div>
@@ -39,6 +42,12 @@ export function TournamentPage() {
               </div>
               <div>
                 id: {tournament.id} • totalRounds: {tournament.totalRounds}
+              </div>
+              <div>
+                format:{" "}
+                <strong>
+                  {tournament.matchFormat === "BEST_OF_3" ? "Best of 3" : "Single game"}
+                </strong>
               </div>
             </div>
           )}
@@ -55,6 +64,7 @@ export function TournamentPage() {
           <RoundCard
             tournamentId={tournament.id}
             round={round}
+            matchFormat={tournament.matchFormat}
             onRoundGenerated={(r) => {
               setRound(r);
               setStandingsRefreshSignal((x) => x + 1);
@@ -64,7 +74,10 @@ export function TournamentPage() {
         )}
 
         {tournament && (
-          <StandingsCard tournamentId={tournament.id} refreshSignal={standingsRefreshSignal} />
+          <StandingsCard
+            tournamentId={tournament.id}
+            refreshSignal={standingsRefreshSignal}
+          />
         )}
       </div>
     </div>

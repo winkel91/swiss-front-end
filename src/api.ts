@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080";
+/*const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080";
 
 export type ApiErrorResponse = { error: string };
 
@@ -22,8 +22,8 @@ async function http<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 // DTOs (based on what you shared)
-export type TournamentResponse = { id: number; name: string; totalRounds: number };
-export type CreateTournamentRequest = { name: string; totalRounds: number };
+export type TournamentResponse = { id: number; name: string; totalRounds: number; matchFormat: "SINGLE_GAME" | "BEST_OF_3";};
+export type CreateTournamentRequest = { name: string; totalRounds: number; matchFormat: "SINGLE_GAME" | "BEST_OF_3"; };
 
 export type MatchResponse = {
   id: number;
@@ -65,3 +65,4 @@ export function generateNextRound(tournamentId: number) {
 export function getStandings(tournamentId: number) {
   return http<StandingResponse[]>(`/tournaments/${tournamentId}/standings`);
 }
+*/
