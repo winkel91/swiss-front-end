@@ -15,7 +15,7 @@ export function TournamentPage() {
       <header style={header}>
         <h1 style={{ margin: 0 }}>Swiss Tournament UI</h1>
         <div style={{ opacity: 0.8 }}>
-          Backend: <code>{import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080"}</code>
+          Backend: <code>{import.meta.env.VITE_API_BASE_URL ?? "not configured"}</code>
         </div>
       </header>
 
