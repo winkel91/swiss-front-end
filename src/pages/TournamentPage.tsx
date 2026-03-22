@@ -5,6 +5,8 @@ import { AddPlayerCard } from "../components/AddPlayerCard";
 import { RoundCard } from "../components/RoundCard";
 import { StandingsCard } from "../components/StandingsCard";
 
+const BUILD_MARKER = "deploy-2026-03-22";
+
 export function TournamentPage() {
   const [tournament, setTournament] = useState<TournamentResponse | null>(null);
   const [round, setRound] = useState<RoundResponse | null>(null);
@@ -16,6 +18,9 @@ export function TournamentPage() {
         <h1 style={{ margin: 0 }}>Swiss Tournament UI</h1>
         <div style={{ opacity: 0.8 }}>
           Backend: <code>{import.meta.env.VITE_API_BASE_URL ?? "not configured"}</code>
+        </div>
+                <div style={buildBadge}>
+          Build: <code>{BUILD_MARKER}</code>
         </div>
       </header>
 
@@ -109,4 +114,12 @@ const cardStyle: React.CSSProperties = {
   borderRadius: 12,
   padding: 16,
   background: "#fff",
+};
+const buildBadge: React.CSSProperties = {
+  padding: "8px 12px",
+  borderRadius: 999,
+  border: "1px solid #ccc",
+  background: "#f7f7f7",
+  fontSize: 13,
+  whiteSpace: "nowrap",
 };
