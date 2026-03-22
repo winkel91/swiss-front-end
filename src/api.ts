@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "not configured";
+/*const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "not configured";
 
 export type ApiErrorResponse = { error: string };
 
@@ -65,3 +65,4 @@ export function generateNextRound(tournamentId: number) {
 export function getStandings(tournamentId: number) {
   return http<StandingResponse[]>(`/tournaments/${tournamentId}/standings`);
 }
+*/
